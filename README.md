@@ -13,3 +13,5 @@ not use beta versions of any libraries.
 - [x] 7. Include at least two UI unit tests; one that asserts the state of the screen when set up with all data present,
 and one that asserts the state of the screen when in an error state.
 - [x] 8. Handle screen rotation efficiently.
+
+- [x] in this application we used Glide, retrofit and room library  
