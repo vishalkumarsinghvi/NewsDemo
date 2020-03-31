@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-
+//news pojo
 @Entity
 class NewsArticles : Serializable {
 

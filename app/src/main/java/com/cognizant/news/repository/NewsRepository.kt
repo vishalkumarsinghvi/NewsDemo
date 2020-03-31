@@ -2,7 +2,6 @@ package com.cognizant.news.repository
 
 import com.cognizant.news.model.NewsArticles
 import com.cognizant.news.retrofit.NewsApiService
-import io.reactivex.Observable
 import retrofit2.Call
 
 class NewsRepository(val newsApiService: NewsApiService) {

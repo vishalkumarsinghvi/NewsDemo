@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.cognizant.news.model.NewsArticles
 import com.cognizant.news.model.NewsDao
 
-@Database(entities = [NewsArticles::class], exportSchema = false, version = 3)
+@Database(entities = [NewsArticles::class], exportSchema = false, version = 1)
 abstract class NewsDemoDatabase : RoomDatabase() {
 
     companion object {

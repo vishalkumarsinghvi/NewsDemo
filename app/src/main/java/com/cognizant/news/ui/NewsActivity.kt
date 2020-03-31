@@ -36,16 +36,6 @@ class NewsActivity : AppCompatActivity() {
 
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState.get("rotate")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-//        outState.put
-    }
-
     //fetch latest news data from api
     private fun getNewsData() {
         swipeToRefresh.isRefreshing = false
@@ -79,15 +69,8 @@ class NewsActivity : AppCompatActivity() {
     }
 
     private fun prepareRecyclerView(newsArticles: NewsArticles?) {
-        if (newsArticles?.title != null) {
-            supportActionBar!!.title = newsArticles.title
-        }
-        val rowsList: ArrayList<Rows> = ArrayList()
-        for (i in 0..newsArticles!!.rows.size - 1) {
-            if (newsArticles.rows[i].title != null && newsArticles.rows[i].description != null && newsArticles.rows[i].imageHref != null) {
-                rowsList.add(newsArticles.rows[i])
-            }
-        }
+        setTitleHeader(newsArticles)
+        val rowsList: ArrayList<Rows> = rowsListWithoutNullValue(newsArticles)
         mNewsAdapter = NewsAdapter(this, rowsList)
         newsRecyclerView.layoutManager = LinearLayoutManager(this)
         newsRecyclerView.itemAnimator = DefaultItemAnimator()
@@ -98,7 +81,24 @@ class NewsActivity : AppCompatActivity() {
             )
         )
         newsRecyclerView.adapter = mNewsAdapter
+    }
 
+    //set the title in action bar
+    private fun setTitleHeader(newsArticles: NewsArticles?) {
+        if (newsArticles?.title != null) {
+            supportActionBar!!.title = newsArticles.title
+        }
+    }
+
+    //here we are discarding if any null parameter available in pojo of rows
+    private fun rowsListWithoutNullValue(newsArticles: NewsArticles?): ArrayList<Rows> {
+        val rowsList: ArrayList<Rows> = ArrayList()
+        for (i in 0 until newsArticles!!.rows.size) {
+            if (newsArticles.rows[i].title != null && newsArticles.rows[i].description != null && newsArticles.rows[i].imageHref != null) {
+                rowsList.add(newsArticles.rows[i])
+            }
+        }
+        return rowsList
     }
 
     //hide progress bar

@@ -15,7 +15,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/app_name"
-        android:textColor="#DE201AA2"
+        android:textColor="@color/blue_color"
         android:textIsSelectable="true"
         android:textSize="16sp" />
 

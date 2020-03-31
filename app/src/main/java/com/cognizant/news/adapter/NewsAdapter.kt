@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.cognizant.news.R
 import com.cognizant.news.model.Rows
 
-class NewsAdapter(val context: Context, private val rows: List<Rows>) :
+class NewsAdapter(private val context: Context, private val rows: List<Rows>) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -21,7 +21,7 @@ class NewsAdapter(val context: Context, private val rows: List<Rows>) :
         )
     }
 
-    override fun onBindViewHolder(holder: NewsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mRows = rows[position]
         holder.tvTitle.text = mRows.title
         holder.tvDescription.text = mRows.description
