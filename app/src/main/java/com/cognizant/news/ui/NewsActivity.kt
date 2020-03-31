@@ -36,6 +36,16 @@ class NewsActivity : AppCompatActivity() {
 
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.get("rotate")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+//        outState.put
+    }
+
     //fetch latest news data from api
     private fun getNewsData() {
         swipeToRefresh.isRefreshing = false
