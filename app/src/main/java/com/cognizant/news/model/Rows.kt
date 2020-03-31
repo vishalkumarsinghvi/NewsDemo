@@ -12,13 +12,13 @@ class Rows : Serializable {
 
     @ColumnInfo(name = "imageHref")
     @SerializedName("imageHref")
-    var imageHref: String = ""
+    var imageHref: String? = null
 
     @ColumnInfo(name = "description")
     @SerializedName("description")
-    var description: String = ""
+    var description: String? = null
 
     @ColumnInfo(name = "title")
     @SerializedName("title")
-    var title: String = ""
+    var title: String? = null
 }

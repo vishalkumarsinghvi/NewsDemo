@@ -2,6 +2,7 @@ package com.cognizant.news.retrofit
 
 import com.cognizant.news.model.NewsArticles
 import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +13,7 @@ interface NewsApiService {
 
     //GET query for news data
     @GET("facts.json")
-    fun getNewsData(): Observable<NewsArticles>
+    fun getNewsData(): Call<NewsArticles>
 
     //static class single instance
     companion object Factory {

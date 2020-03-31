@@ -20,6 +20,6 @@ class NewsArticles : Serializable {
     @TypeConverters(RowsConverter::class)
     @ColumnInfo(name = "rows")
     @SerializedName("rows")
-    var rows: List<Rows>?= emptyList<Rows>()
+    var rows: ArrayList<Rows> = ArrayList()
 
 }

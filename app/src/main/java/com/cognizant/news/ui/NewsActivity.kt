@@ -4,18 +4,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cognizant.news.R
 import com.cognizant.news.adapter.NewsAdapter
 import com.cognizant.news.model.NewsArticles
 import com.cognizant.news.model.NewsDao
+import com.cognizant.news.model.Rows
 import com.cognizant.news.repository.NewsRepository
 import com.cognizant.news.retrofit.NewsApiService
 import com.cognizant.news.utils.NetworkUtils
 import com.cognizant.news.utils.NewsDemoApplication.Companion.getDb
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_news.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class NewsActivity : AppCompatActivity() {
 
@@ -38,18 +42,23 @@ class NewsActivity : AppCompatActivity() {
         showProgress()
         if (NetworkUtils.isNetworkAvailable(this)) {
             NewsRepository(newsApiService = NewsApiService.create()).getNewsData()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ result ->
-                    prepareRecyclerView(result)
-                    newsDao.setAllNews(result)
-                    hideProgress()
-                },
-                    { error ->
-                        error.printStackTrace()
+                .enqueue(object : Callback<NewsArticles> {
+                    override fun onResponse(
+                        call: Call<NewsArticles>,
+                        response: Response<NewsArticles>
+                    ) {
+                        prepareRecyclerView(response.body())
+                        newsDao.setAllNews(response.body())
+                        hideProgress()
+                    }
+
+                    override fun onFailure(call: Call<NewsArticles>, t: Throwable) {
+                        t.printStackTrace()
                         prepareRecyclerView(newsDao.getAllNews())
                         hideProgress()
-                    })
+                    }
+                }
+                )
             hideInternetError()
         } else {
             prepareRecyclerView(newsDao.getAllNews())
@@ -63,9 +72,21 @@ class NewsActivity : AppCompatActivity() {
         if (newsArticles?.title != null) {
             supportActionBar!!.title = newsArticles.title
         }
-        mNewsAdapter = NewsAdapter(newsArticles?.rows)
+        val rowsList: ArrayList<Rows> = ArrayList()
+        for (i in 0..newsArticles!!.rows.size - 1) {
+            if (newsArticles.rows[i].title != null && newsArticles.rows[i].description != null && newsArticles.rows[i].imageHref != null) {
+                rowsList.add(newsArticles.rows[i])
+            }
+        }
+        mNewsAdapter = NewsAdapter(this, rowsList)
         newsRecyclerView.layoutManager = LinearLayoutManager(this)
         newsRecyclerView.itemAnimator = DefaultItemAnimator()
+        newsRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                applicationContext,
+                (newsRecyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
         newsRecyclerView.adapter = mNewsAdapter
 
     }

@@ -9,22 +9,22 @@ import java.lang.reflect.Type
 
 class RowsConverter : Serializable {
     @TypeConverter // note this annotation
-    fun fromRowsList(Rows: List<Rows?>?): String? {
+    fun fromRowsArrayList(Rows: ArrayList<Rows?>?): String? {
         if (Rows == null) {
             return null
         }
         val gson = Gson()
-        val type: Type = object : TypeToken<List<Rows?>?>() {}.type
+        val type: Type = object : TypeToken<ArrayList<Rows?>?>() {}.type
         return gson.toJson(Rows, type)
     }
 
     @TypeConverter // note this annotation
-    fun toRowsList(RowsString: String?): List<Rows>? {
+    fun toRowsArrayList(RowsString: String?): ArrayList<Rows>? {
         if (RowsString == null) {
             return null
         }
         val gson = Gson()
-        val type: Type = object : TypeToken<List<Rows?>?>() {}.type
-        return gson.fromJson<List<Rows>>(RowsString, type)
+        val type: Type = object : TypeToken<ArrayList<Rows?>?>() {}.type
+        return gson.fromJson<ArrayList<Rows>>(RowsString, type)
     }
 }
